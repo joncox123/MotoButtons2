@@ -1,4 +1,4 @@
-# MotoButtons2
+# MotoButtons 2
 
 Welcome to MotoButtons 2, the low-cost, waterproof, DIY Bluetooth motorcycle controller. Version 2 features many upgrades over [the original](https://github.com/joncox123/MotoButtons):
 - 3D printed case with handlebar mount
