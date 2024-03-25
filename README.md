@@ -9,6 +9,6 @@ Welcome to MotoButtons 2, the low-cost, waterproof, DIY Bluetooth motorcycle con
 - Three pushbuttons
 - Optional lithium polymer rechargeable battery
 
-The target price to order all parts, including the case, is approximately $80 to $100 excluding shipping costs. The main variable is the cost and quality of the 3D printed case. The cheapest service for 3D printing is [Craftcloud](https://craftcloud3d.com/).
+The target price to order all parts, including the case, is approximately $80 to $100 excluding shipping costs. The main variable is the cost and quality of the 3D printed case. However, the most expensive part is the IP68 rated 5-way joystick. The cheapest available is from Ruffy Controls, although industry prices for similar parts vary from $45 to beyond $300. Lastly, the least expensive service for 3D printing is [Craftcloud](https://craftcloud3d.com/).
 
 <img src="Case/MB2_Case.PNG" alt="3D Printed Case Model" width="400"/>
