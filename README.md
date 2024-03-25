@@ -6,3 +6,5 @@ Welcome to MotoButtons 2, the low-cost, waterproof, DIY Bluetooth motorcycle con
 - Commercial, IP68 5-way castle joystick
 - Three pushbuttons
 - Optional lithium polymer rechargeable battery
+
+<img src="Case/MB2_Case.JPG" alt="3D Printed Case Model" width="500"/>
