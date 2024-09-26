@@ -1,6 +1,6 @@
 # MotoButtons 2
 
-### *MotoButtons 2 is currently a work in progress. The estimated date of completion is currently May 14, 2024*
+### *MotoButtons 2 is a work in progress. The date of completion will be September 29, 2024. I had the case printed and ordered the remaining parts. I got a good deal on an industrial 4-way joystick, so I'll be writing the code for that option first.*
 
 Welcome to MotoButtons 2, the low-cost, waterproof, DIY Bluetooth motorcycle controller. Version 2 features many upgrades over [the original](https://github.com/joncox123/MotoButtons):
 - 3D printed case with handlebar mount
