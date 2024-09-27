@@ -18,7 +18,7 @@ using namespace Adafruit_LittleFS_Namespace;
 #define MODE_RESET_MS 15000
 
 // Orientation of controller
-#define DEFAULT_BUTTON_MAP 2
+#define DEFAULT_BUTTON_MAP 0
 uint8_t buttonOrientation = DEFAULT_BUTTON_MAP;
 
 // how long to inactivate up/down/left/right on joystick when center is pressed
@@ -40,6 +40,32 @@ const char BLE_DEVICE_MODEL[] = "MotoButtons 2.0";
 const char BLE_MANUFACTURER[] = "Me";
 bool BLE_connected = false;
 
+// RGB LED colors plus off
+typedef enum {
+	Red,      // virtual button activated
+  Blue,     // BLE connected (flashing, BLE not connected)
+  Green,    // mouse mode
+  Yellow,   // DMD2 mode
+  Cyan,     // MRA mode
+  Magenta,  // media mode
+  White,    // regular key press
+  Off,
+} Color;
+
+Color priorLEDState = Off;
+Color LEDState = Off;
+
+#define VIRT_BUTT_COLOR Red
+#define BLE_COLOR Blue
+#define MOUSE_MODE_COLOR Green
+#define DMD2_MODE_COLOR Yellow
+#define MRA_MODE_COLOR Cyan
+#define MEDIA_MODE_COLOR Magenta
+#define KEY_PRESS_COLOR White
+#define POWER_ON_COLOR Red
+#define SETUP_COMPLETE_COLOR White
+#define BUTTON_ORIENTATION_COLOR Red
+
 /* 
  * --------------------- MODE CONFIGURATION ----------------------------
  * 	DMD2: up/down/left/right arrows, enter, F6 and F7
@@ -50,13 +76,13 @@ bool BLE_connected = false;
 // Selected Mode: indicates the currently selected operating mode
 #define MODE_TOGGLE_MS 1000
 #define N_MODES 4
-enum Mode {
-	mouse = 0,
+typedef enum {
+	Mouse = 0,
   DMD2  = 1,
 	MRA   = 2,
   MEDIA = 3
-};
-enum Mode currentMode;
+} Mode;
+Mode currentMode;
 
 bool modeButtonsReleased = true;
 
@@ -76,8 +102,8 @@ const uint8_t DMD_KEY_B       = HID_KEY_F6;
 const uint8_t DMD_KEY_VIRTUAL = HID_KEY_F7;
 
 /* Mouse Mode Configuration */
-#define MOUSE_RATE_SLOW 10
-#define MOUSE_RATE_FAST 40
+#define MOUSE_RATE_SLOW 5
+#define MOUSE_RATE_FAST 20
 #define MOUSE_RATE_DELAY 500
 bool mouse_left_button_pressed = false;
 const uint8_t MOUSE_KEY_A     = HID_KEY_ENTER;
@@ -117,8 +143,10 @@ uint8_t BUTTON_RIGHT   = 3;
 uint8_t BUTTON_CENTER  = 1;
 uint8_t BUTTON_A       = 5;
 uint8_t BUTTON_B       = 6;
-uint8_t LED_BUTTON_A   = 7;
-uint8_t LED_BUTTON_B   = 8;
+uint8_t BUTTON_C       = 7;
+uint8_t RGB_LED_RED        = 8;
+uint8_t RGB_LED_BLUE       = 9;
+uint8_t RGB_LED_GREEN      = 10;
 
 #define DEBOUNCE_TIME_MS 50
 
@@ -130,6 +158,7 @@ bool button_right_state   = false;
 bool button_center_state  = false;
 bool button_A_state       = false;
 bool button_B_state       = false;
+bool button_C_state       = false;
 bool button_virtual_state = false; // 8th virtual button activated via long press
 
 // prior state of button reading for debouncing purposes
@@ -140,6 +169,7 @@ bool button_right_state_prior   = false;
 bool button_center_state_prior  = false;
 bool button_A_state_prior       = false;
 bool button_B_state_prior       = false;
+bool button_C_state_prior       = false;
 
 // Record state change of buttons to be used to monitor when event is transmitted
 bool button_up_flipped      = false;
@@ -149,6 +179,7 @@ bool button_right_flipped   = false;
 bool button_center_flipped  = false;
 bool button_A_flipped       = false;
 bool button_B_flipped       = false;
+bool button_C_flipped       = false;
 bool button_virtual_flipped = false;
 
 // a flag to indicate that virtual button was released, for center timeout purposes only
@@ -162,8 +193,141 @@ unsigned long button_right_time   = 0;
 unsigned long button_center_time  = 0;
 unsigned long button_A_time       = 0;
 unsigned long button_B_time       = 0;
+unsigned long button_C_time       = 0;
 unsigned long button_virtual_time = 0;
 /*------------------- END BUTTON CONFIG & LOGIC-----------------------*/
+
+/* 
+  Set the color of the RGB LED to one of the 7 possibilities, plus off
+  For a common anode(+) LED, LOW is ON and HIGH is OFF.
+*/
+void setRGBColor(Color color) {
+  priorLEDState = LEDState;
+
+  switch (color) {
+    case Red:
+      LEDState = Red;
+      digitalWrite(RGB_LED_RED, LOW);
+      digitalWrite(RGB_LED_BLUE, HIGH);
+      digitalWrite(RGB_LED_GREEN, HIGH);
+      break;
+    case Blue:
+      LEDState = Blue;
+      digitalWrite(RGB_LED_RED, HIGH);
+      digitalWrite(RGB_LED_BLUE, LOW);
+      digitalWrite(RGB_LED_GREEN, HIGH);
+      break;
+    case Green:
+      LEDState = Green;
+      digitalWrite(RGB_LED_RED, HIGH);
+      digitalWrite(RGB_LED_BLUE, HIGH);
+      digitalWrite(RGB_LED_GREEN, LOW);
+      break;
+    case Yellow:
+      LEDState = Yellow;
+      digitalWrite(RGB_LED_RED, LOW);
+      digitalWrite(RGB_LED_BLUE, HIGH);
+      digitalWrite(RGB_LED_GREEN, LOW);
+      break;
+    case Cyan:
+      LEDState = Cyan;
+      digitalWrite(RGB_LED_RED, HIGH);
+      digitalWrite(RGB_LED_BLUE, LOW);
+      digitalWrite(RGB_LED_GREEN, LOW);
+      break;
+    case Magenta:
+      LEDState = Magenta;
+      digitalWrite(RGB_LED_RED, LOW);
+      digitalWrite(RGB_LED_BLUE, LOW);
+      digitalWrite(RGB_LED_GREEN, HIGH);
+      break;
+    case White:
+      LEDState = White;
+      digitalWrite(RGB_LED_RED, LOW);
+      digitalWrite(RGB_LED_BLUE, LOW);
+      digitalWrite(RGB_LED_GREEN, LOW);
+      break;
+    case Off:
+    default:
+      LEDState = Off;
+      digitalWrite(RGB_LED_RED, HIGH);
+      digitalWrite(RGB_LED_BLUE, HIGH);
+      digitalWrite(RGB_LED_GREEN, HIGH);
+  }
+}
+
+void flashLED(Color color, uint16_t delayMs, uint16_t durationMs) {
+  uint8_t N = durationMs / delayMs;
+
+  priorLEDState = LEDState;
+  LEDState = color;
+
+  for (uint8_t i = 0; i < 2*(N+1); i++) {
+      if (i % 2 == 0)
+        setRGBColor(Off);
+      else
+        setRGBColor(color);
+      delay(delayMs/2);
+  }
+}
+
+void restoreLEDState() {
+  setRGBColor(priorLEDState);
+  LEDState = priorLEDState;
+}
+
+void indicateMode(Mode mode) {
+  	// Indicate the new mode
+    switch (mode) {
+      case Mouse:
+        flashLED(MOUSE_MODE_COLOR, 1000, 200);
+        setRGBColor(MOUSE_MODE_COLOR);
+        break;
+      case DMD2:
+        flashLED(DMD2_MODE_COLOR, 1000, 200);
+        setRGBColor(DMD2_MODE_COLOR);
+        break;
+      case MRA:
+        flashLED(MRA_MODE_COLOR, 1000, 200);
+        setRGBColor(MRA_MODE_COLOR);
+        break;
+      case MEDIA:
+        flashLED(MEDIA_MODE_COLOR, 1000, 200);
+        setRGBColor(MEDIA_MODE_COLOR);
+        break;
+      default:
+        setRGBColor(Red);
+    }
+}
+
+void showMode(Mode mode) {
+  	// Indicate the new mode
+    switch (mode) {
+      case Mouse:
+        setRGBColor(MOUSE_MODE_COLOR);
+        break;
+      case DMD2:
+        setRGBColor(DMD2_MODE_COLOR);
+        break;
+      case MRA:
+        setRGBColor(MRA_MODE_COLOR);
+        break;
+      case MEDIA:
+        setRGBColor(MEDIA_MODE_COLOR);
+        break;
+      default:
+        setRGBColor(Red);
+    }
+}
+
+void RGBToggle(Color color) {
+  bool ledIsOn = !digitalRead(RGB_LED_RED) || !digitalRead(RGB_LED_BLUE) || !digitalRead(RGB_LED_GREEN);
+
+  if (ledIsOn)
+    setRGBColor(Off);
+  else
+    setRGBColor(color);
+}
 
 // At startup, the user can hold down a joystick direction to select an orientation
 // -1 indicates no valid selection was made
@@ -202,49 +366,45 @@ int getButtonMapSelection() {
  */
 bool setButtonMapping(uint8_t buttMap) {
 	switch (buttMap) {
-	case 0: // two button on top
+	case 0: // three buttons on top
 		BUTTON_UP      = 2;
 		BUTTON_DOWN    = 4;
 		BUTTON_LEFT    = 3;
 		BUTTON_RIGHT   = 0;
 		BUTTON_CENTER  = 1;
-		BUTTON_A       = 6;
-		BUTTON_B       = 5;
-		LED_BUTTON_A   = 8;
-		LED_BUTTON_B   = 7;
+		BUTTON_A       = 5;
+		BUTTON_B       = 6;
+    BUTTON_C       = 7;
 		break;
-	case 1: // two button on left
+	case 1: // three buttons on left
 		BUTTON_UP      = 0;
 		BUTTON_DOWN    = 3;
 		BUTTON_LEFT    = 2;
 		BUTTON_RIGHT   = 4;
 		BUTTON_CENTER  = 1;
-		BUTTON_A       = 6;
-		BUTTON_B       = 5;
-		LED_BUTTON_A   = 8;
-		LED_BUTTON_B   = 7;
+		BUTTON_A       = 5;
+		BUTTON_B       = 6;
+    BUTTON_C       = 7;
 		break;
-	case 2: // two button on bottom
+	case 2: // three buttons on bottom
 		BUTTON_UP      = 4;
 		BUTTON_DOWN    = 2;
 		BUTTON_LEFT    = 0;
 		BUTTON_RIGHT   = 3;
 		BUTTON_CENTER  = 1;
-		BUTTON_A       = 5;
+		BUTTON_A       = 7;
 		BUTTON_B       = 6;
-		LED_BUTTON_A   = 7;
-		LED_BUTTON_B   = 8;
+    BUTTON_C       = 5;
 		break;
-	case 3: // two buttons toward right
+	case 3: // three buttons toward right
 		BUTTON_UP      = 3;
 		BUTTON_DOWN    = 0;
 		BUTTON_LEFT    = 4;
 		BUTTON_RIGHT   = 2;
 		BUTTON_CENTER  = 1;
-		BUTTON_A       = 6;
-		BUTTON_B       = 5;
-		LED_BUTTON_A   = 8;
-		LED_BUTTON_B   = 7;
+		BUTTON_A       = 7;
+		BUTTON_B       = 6;
+    BUTTON_C       = 5;
 		break;
 	default:
 		return true;
@@ -265,7 +425,6 @@ bool isCenterActive() {
 	
 	return false;
 }
-
 
 bool isVirtualActive() {
 	if (millis() - button_virtual_time < BUTTON_CENTER_TIMEOUT)
@@ -306,19 +465,6 @@ void releaseAllKeys() {
   blehid.keyboardReport(0, keyReportRelease);
 }
 
-void indicateMode(uint8_t mode, bool led) {
-    // signal the new mode number
-    for (unsigned int i = 0; i < 2*((int)mode+1); i++) {
-		if (led)
-			digitalToggle(LED_BUTTON_A);
-		else
-			digitalToggle(LED_BUTTON_B);
-      delay(500);
-    }
-    digitalWrite(LED_BUTTON_A, LOW);
-    digitalWrite(LED_BUTTON_B, LOW);
-}
-
 void updateButtons() {
   bool stateChanged = false;
   
@@ -330,6 +476,7 @@ void updateButtons() {
   stateChanged |= debounceButton(BUTTON_CENTER, &button_center_state, &button_center_state_prior, &button_center_flipped, &button_center_time, "CENTER");
   stateChanged |= debounceButton(BUTTON_A, &button_A_state, &button_A_state_prior, &button_A_flipped, &button_A_time, "A");
   stateChanged |= debounceButton(BUTTON_B, &button_B_state, &button_B_state_prior, &button_B_flipped, &button_B_time, "B");
+  stateChanged |= debounceButton(BUTTON_C, &button_C_state, &button_C_state_prior, &button_C_flipped, &button_C_time, "C");
   
   /* ----------- Detect state of virtual buttons ---------------------*/
   if (button_center_state && (millis() - button_center_time > MODE_TOGGLE_MS)) {
@@ -342,8 +489,7 @@ void updateButtons() {
       stateChanged |= true;
 
       // indicate virtual button
-      digitalToggle(LED_BUTTON_A);
-      digitalWrite(LED_BUTTON_A, HIGH);
+      setRGBColor(VIRT_BUTT_COLOR);
     }
     button_virtual_state = true;
   }
@@ -354,8 +500,7 @@ void updateButtons() {
 	button_virtual_timeout = true;
 	button_virtual_time = millis();
     if (DEBUG) Serial.println("Virtual button deactivated, timeout enabled.");
-    digitalToggle(LED_BUTTON_A);
-    digitalWrite(LED_BUTTON_A, LOW);
+    restoreLEDState();
     stateChanged |= true;
   }
   
@@ -405,16 +550,7 @@ void updateButtons() {
     // store new mode to flash memory
     writeSettings();
 
-	  // Flash the LEDs indicating a change of mode occured
-    for (unsigned int i = 0; i < 30; i++) {
-      digitalToggle(LED_BUTTON_A);
-      digitalToggle(LED_BUTTON_B);
-      delay(100);
-    }
-    digitalWrite(LED_BUTTON_A, LOW);
-    digitalWrite(LED_BUTTON_B, LOW);
-    delay(1000);
-    indicateMode((uint8_t)currentMode, true);
+    indicateMode(currentMode);
   }
   /*------------------------------------------------------------------*/
 }
@@ -466,7 +602,7 @@ void mapButtonsToKeyReport() {
 			}
 			break;
 
-		case mouse:
+		case Mouse:
 			if (button_A_state && button_A_flipped) {
 			  keyReport[0] = MOUSE_KEY_A;
 			  ++i;
@@ -629,12 +765,11 @@ void setupDigitalIO() {
   pinMode(BUTTON_CENTER,  INPUT_PULLDOWN);
   pinMode(BUTTON_A,       INPUT_PULLDOWN);
   pinMode(BUTTON_B,       INPUT_PULLDOWN);
+  pinMode(BUTTON_C,       INPUT_PULLDOWN);
 
-  pinMode(LED_BUTTON_A,   OUTPUT);
-  pinMode(LED_BUTTON_B,   OUTPUT);
-
-  digitalWrite(LED_BUTTON_A, LOW);
-  digitalWrite(LED_BUTTON_B, LOW);
+  pinMode(RGB_LED_RED,   OUTPUT);
+  pinMode(RGB_LED_BLUE,   OUTPUT);
+  pinMode(RGB_LED_GREEN,   OUTPUT);
 }
 
 bool writeSettings() {
@@ -736,15 +871,16 @@ bool readSettings() {
 
 void setup() 
 {
-  currentMode = mouse;
+  currentMode = Mouse;
   
   setupDigitalIO();
+  setRGBColor(POWER_ON_COLOR);
 
   if (DEBUG) {
     Serial.begin(115200);
     while ( !Serial ) delay(10);   // for nrf52840 with native usb
 
-    Serial.println("MotoButtons BLE Controller");
+    Serial.println("MotoButtons 2 BLE Controller");
     Serial.println("-----------------------------\n");
     Serial.println();
   }
@@ -764,12 +900,11 @@ void setup()
   blehid.begin();
 
   // Set up and start advertising
-  startAdv();
+  startBLEAdvertise();
 
   if (DEBUG)
     Serial.println("Setup complete.");
-  digitalWrite(LED_BUTTON_A, HIGH);
-  digitalWrite(LED_BUTTON_B, HIGH);
+  setRGBColor(SETUP_COMPLETE_COLOR);
 
   // Initialize Internal File System
   InternalFS.begin();
@@ -777,20 +912,19 @@ void setup()
   // let the user change the orientation of the device at startup
   int buttonMap = getButtonMapSelection();
   if (buttonMap >= 0) {
-	buttonOrientation = (uint8_t)buttonMap;
-	setButtonMapping(buttonOrientation);
-	
-	if (DEBUG) {
-		Serial.print("Button orientation changed to: ");
-        Serial.println(buttonOrientation);
-	}
-	
-	// Indicate new button mode selection
-	indicateMode(buttonOrientation, false);
-	delay(250);
+    buttonOrientation = (uint8_t)buttonMap;
+    setButtonMapping(buttonOrientation);
+    
+    if (DEBUG) {
+      Serial.print("Button orientation changed to: ");
+          Serial.println(buttonOrientation);
+    }
+    
+    // Indicate new button mode selection
+    flashLED(BUTTON_ORIENTATION_COLOR, 250, 250*(((uint8_t)buttonOrientation) + 1));
   }
   else
-	Serial.println("Button orientation not changed.");
+	  Serial.println("Button orientation not changed.");
 
   // Restore settings
   bool success = false;
@@ -803,13 +937,10 @@ void setup()
   if (!success || buttonMap >= 0)
     writeSettings();
 
-  digitalWrite(LED_BUTTON_A, LOW);
-  digitalWrite(LED_BUTTON_B, LOW);
-  indicateMode((uint8_t)currentMode, true);
-  delay(250);
+  indicateMode(currentMode);
 }
 
-void startAdv(void)
+void startBLEAdvertise(void)
 {  
   // Advertising packet
   Bluefruit.Advertising.addFlags(BLE_GAP_ADV_FLAGS_LE_ONLY_GENERAL_DISC_MODE);
@@ -844,13 +975,11 @@ void loop()
   if (!BLE_connected && (Bluefruit.connected() > 0)) {
     if (DEBUG)
       Serial.println("BLE connected to host.");
-    digitalWrite(LED_BUTTON_A, LOW);
-    digitalWrite(LED_BUTTON_B, LOW);
+    showMode(currentMode);
     BLE_connected = true;
   }
   else if (Bluefruit.connected() == 0) {
-    digitalToggle(LED_BUTTON_A);
-    digitalToggle(LED_BUTTON_B);
+    RGBToggle(BLE_COLOR);
     delay(200);
     BLE_connected = false;
   }
@@ -867,7 +996,7 @@ void loop()
       if (DEBUG) Serial.println("Key report sent.");
 	  }
 	  
-	  if (currentMode == mouse)
+	  if (currentMode == Mouse)
 		  handleMouse();
   }
 }
