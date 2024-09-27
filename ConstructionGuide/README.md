@@ -1,4 +1,4 @@
-### Construction Guide
+### Construction Guide 
 
 Please print out the [PDF wiring diagram](./Wiring_Diagram_MotoButtons2.pdf) prior to construction.
 
