@@ -9,7 +9,7 @@ Second, install the Seeed nRF Boards package by clicking on the side button that
 
 <img src="InstallBSP.PNG" alt="install Seeed BSP" width="600"/>
 
-Third, [download the source code file](../ArduinoCode/MotoButtonsLite.ino) and open in the Arduino IDE. Attach the microcontroller via a USB-C cable. Select the board that you just attached with the drop down box in the upper toolbar. It should say "Seeed XIAO nRF52840".
+Third, [download the source code file](../ArduinoCode/MotoButtons2.ino) and open in the Arduino IDE. Attach the microcontroller via a USB-C cable. Select the board that you just attached with the drop down box in the upper toolbar. It should say "Seeed XIAO nRF52840".
 
 Finally, click the upload button!
 
