@@ -8,7 +8,7 @@ Prior to assembly, you will need the following hardware to complete construction
 - A #40 0.098-in (2.5 mm) drill bit for "tapping" (threading) the case holes
 - A #31 0.120-in (3.00 mm) drill bit for creating "clear holes" in the case lid for the lid screws
 - A piece of insulting electrical tape
-- Some silicone RTV sealand (either clear or color matching to your case)
+- Some silicone RTV sealant (either clear or color matching to your case)
 - 22 AWG or finer insulated wire
 - An old USB cable (smaller diameter cable preferred) to provide 5V power to the MCU.
 
