@@ -12,10 +12,10 @@ Device: Seeed XIAO nRF52840 (MotoButtons 2)
 using namespace Adafruit_LittleFS_Namespace;
 
 // Enable serial debugging (turn this off if not connected to PC)
-#define DEBUG true
+#define DEBUG false
 
 // How long to wait until DFU reset mode is activated
-#define MODE_RESET_MS 5000
+#define MODE_RESET_MS 10000
 
 // Orientation of controller
 #define DEFAULT_BUTTON_MAP 0
@@ -112,9 +112,8 @@ const uint8_t DMD_KEY_VIRTUAL = HID_KEY_F5;
 #define MOUSE_RATE_FAST 20
 #define MOUSE_RATE_DELAY 500
 bool mouse_left_button_pressed = false;
-const uint8_t MOUSE_KEY_A = HID_KEY_HOME;
-const uint8_t MOUSE_KEY_B = HID_KEY_MENU;
-const uint8_t MOUSE_KEY_C = HID_KEY_ENTER;
+const uint8_t MOUSE_KEY_A = HID_KEY_BACKSPACE;
+const uint8_t MOUSE_KEY_B = HID_KEY_ENTER;
 
 /* MyRouteApp Mode Configuration */
 const uint8_t MRA_KEY_UP = HID_KEY_ARROW_UP;
@@ -641,50 +640,50 @@ void mapButtonsToKeyReport()
       keyReport[i] = DMD_KEY_CENTER;
       ++i;
     }
-    if (button_A_state & button_A_flipped && !button_B_state)
+    if (!button_A_state & button_A_flipped && !button_B_state)
     {
       button_A_flipped = false;
+      forceKeyReport = true;
       keyReport[i] = DMD_KEY_A;
       ++i;
     }
-    if (button_B_state && button_B_flipped && !button_A_state && (i < N_KEY_REPORT))
+    if (!button_B_state && button_B_flipped && !button_A_state && (i < N_KEY_REPORT))
     {
       button_B_flipped = false;
+      forceKeyReport = true;
       keyReport[i] = DMD_KEY_B;
       ++i;
     }
-    if (button_C_state && button_C_flipped && !virtualActive && (i < N_KEY_REPORT))
+    if (!button_C_state && button_C_flipped && !virtualActive && (i < N_KEY_REPORT))
     {
       button_C_flipped = false;
+      forceKeyReport = true;
       keyReport[i] = DMD_KEY_C;
       ++i;
     }
-    if (button_virtual_state && (i < N_KEY_REPORT) && button_virtual_flipped)
+    if (!button_virtual_state && (i < N_KEY_REPORT) && button_virtual_flipped)
     {
       button_virtual_flipped = false;
+      forceKeyReport = true;
       keyReport[i] = DMD_KEY_VIRTUAL;
       ++i;
     }
     break;
 
   case Mouse:
-    if (button_A_state && button_A_flipped)
+    if (!button_A_state && button_A_flipped)
     {
       button_A_flipped = false;
+      forceKeyReport = true;
       keyReport[i] = MOUSE_KEY_A;
       ++i;
       
     }
-    if (button_B_state && button_B_flipped)
+    if (!button_B_state && button_B_flipped)
     {
       button_B_flipped = false;
+      forceKeyReport = true;
       keyReport[i] = MOUSE_KEY_B;
-      ++i;
-    }
-    if (button_C_state && button_C_flipped)
-    {
-      button_C_flipped = false;
-      keyReport[i] = MOUSE_KEY_C;
       ++i;
     }
     break;
@@ -727,35 +726,39 @@ void mapButtonsToKeyReport()
       keyReport[i] = MRA_KEY_CENTER;
       ++i;
     }
-    if (button_A_state && button_A_flipped && !button_B_state)
+    if (!button_A_state && button_A_flipped && !button_B_state)
     {
       if (DEBUG)
         Serial.println("MRA A");
       button_A_flipped = false;
+      forceKeyReport = true;
       keyReport[i] = MRA_KEY_A;
       ++i;
     }
-    if (button_B_state && button_B_flipped && !button_A_state && (i < N_KEY_REPORT))
+    if (!button_B_state && button_B_flipped && !button_A_state && (i < N_KEY_REPORT))
     {
       if (DEBUG)
         Serial.println("MRA B");
       button_B_flipped = false;
+      forceKeyReport = true;
       keyReport[i] = MRA_KEY_B;
       ++i;
     }
-    if (button_C_state && button_C_flipped && !virtualActive && (i < N_KEY_REPORT))
+    if (!button_C_state && button_C_flipped && !virtualActive && (i < N_KEY_REPORT))
     {
       if (DEBUG)
         Serial.println("MRA C");
       button_C_flipped = false;
+      forceKeyReport = true;
       keyReport[i] = MRA_KEY_C;
       ++i;
     }
-    if (button_virtual_state && (i < N_KEY_REPORT) && button_virtual_flipped)
+    if (!button_virtual_state && (i < N_KEY_REPORT) && button_virtual_flipped)
     {
       if (DEBUG)
         Serial.println("MRA VIRTUAL");
       button_virtual_flipped = false;
+      forceKeyReport = true;
       keyReport[i] = MRA_KEY_VIRTUAL;
       ++i;
     }
@@ -805,38 +808,42 @@ void mapButtonsToKeyReport()
       blehid.consumerKeyRelease(0);
       ++i;
     }
-    if (button_A_state && button_A_flipped && !button_B_state)
+    if (!button_A_state && button_A_flipped && !button_B_state)
     {
       if (DEBUG)
         Serial.println("Media key A");
       button_A_flipped = false;
+      forceKeyReport = true;
       blehid.consumerKeyPress(0, MEDIA_KEY_A);
       blehid.consumerKeyRelease(0);
       ++i;
     }
-    if (button_B_state && button_B_flipped && !button_A_state && (i < N_KEY_REPORT))
+    if (!button_B_state && button_B_flipped && !button_A_state && (i < N_KEY_REPORT))
     {
       if (DEBUG)
         Serial.println("Media key B");
       button_B_flipped = false;
+      forceKeyReport = true;
       blehid.consumerKeyPress(0, MEDIA_KEY_B);
       blehid.consumerKeyRelease(0);
       ++i;
     }
-    if (button_C_state && button_C_flipped && !virtualActive && (i < N_KEY_REPORT))
+    if (!button_C_state && button_C_flipped && !virtualActive && (i < N_KEY_REPORT))
     {
       if (DEBUG)
         Serial.println("Media key C");
       button_C_flipped = false;
+      forceKeyReport = true;
       blehid.consumerKeyPress(0, MEDIA_KEY_C);
       blehid.consumerKeyRelease(0);
       ++i;
     }
-    if (button_virtual_state && (i < N_KEY_REPORT) && button_virtual_flipped)
+    if (!button_virtual_state && (i < N_KEY_REPORT) && button_virtual_flipped)
     {
       if (DEBUG)
         Serial.println("Media VIRTUAL");
       button_virtual_flipped = false;
+      forceKeyReport = true;
       keyReport[i] = MEDIA_KEY_VIRTUAL;
       ++i;
     }
@@ -857,6 +864,8 @@ void handleMouse()
   // handle LEFT click release
   if ((!button_center_state && button_center_flipped) || (!button_C_state && button_C_flipped) && mouse_left_button_pressed)
   {
+    if (DEBUG)
+      Serial.print("Mouse left button released.");
     blehid.mouseButtonRelease();
     button_center_flipped = false;
     button_C_flipped = false;
@@ -866,6 +875,8 @@ void handleMouse()
   // Handle LEFT click press
   if ((button_center_state && button_center_flipped) || (button_C_state && button_C_flipped) && !mouse_left_button_pressed)
   {
+    if (DEBUG)
+      Serial.print("Mouse left button pressed.");
     blehid.mouseButtonPress(MOUSE_BUTTON_LEFT);
     button_center_flipped = false;
     button_C_flipped = false;
@@ -1151,7 +1162,11 @@ void loop()
     // Compile the BLE HID key report
     if (keyReportChanged || forceKeyReport)
     {
-      forceKeyReport = false;
+      if (forceKeyReport) {
+        forceKeyReport = false;
+        if (DEBUG)
+          Serial.println("Key report forced.");
+      }
       mapButtonsToKeyReport();
       blehid.keyboardReport(0, keyReport);
       if (DEBUG)
