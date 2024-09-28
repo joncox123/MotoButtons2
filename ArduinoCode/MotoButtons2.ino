@@ -426,9 +426,9 @@ bool setButtonMapping(uint8_t buttMap)
     BUTTON_LEFT = 0;
     BUTTON_RIGHT = 3;
     BUTTON_CENTER = 1;
-    BUTTON_A = 7;
+    BUTTON_A = 5;
     BUTTON_B = 6;
-    BUTTON_C = 5;
+    BUTTON_C = 7;
     break;
   case 3: // three buttons toward right
     BUTTON_UP = 3;
@@ -436,9 +436,9 @@ bool setButtonMapping(uint8_t buttMap)
     BUTTON_LEFT = 4;
     BUTTON_RIGHT = 2;
     BUTTON_CENTER = 1;
-    BUTTON_A = 7;
+    BUTTON_A = 5;
     BUTTON_B = 6;
-    BUTTON_C = 5;
+    BUTTON_C = 7;
     break;
   default:
     return true;
