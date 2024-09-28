@@ -14,7 +14,7 @@ If you have developed different or improved 3D printed case designs, please let 
 The target price to order all parts, including the case, is approximately $80 to $100 excluding shipping costs. The main variable is the cost and quality of the 3D printed case. However, the most expensive part is the IP68 rated 5-way joystick. The cheapest available is from Ruffy Controls, although industry prices for similar parts vary from $45 to beyond $300. Lastly, the least expensive service for 3D printing is [Craftcloud](https://craftcloud3d.com/).
 
 ## User Documentation
-Please see the [User's Guide](./UsersGuide.md) for instructions on how to use your MotoButtons 2.
+Please see the **[User's Guide](./UsersGuide/README.md)** for instructions on how to use your MotoButtons 2.
 
 ## Assembly Steps
 
