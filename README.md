@@ -1,10 +1,10 @@
 # MotoButtons 2
-<img src="ConstructionGuide/pics/MB_hand_demo.jpg" alt="Completed unit mounted to bike" width="500"/>
+### MotoButtons 2 has reached the initial 2.0 release and is ready for users to build their own unit.
+<img src="ConstructionGuide/pics/MB_hand_demo.jpg" alt="Completed unit mounted to bike" width="600"/>
 
-## MotoButton 2 has reached the initial 2.0 release and is ready for users to build their own unit.
+**If you have developed different or improved 3D printed case designs, please let me know via the Issues and I can either link to them here or add them to this repository.**
+
 Please submit any bug reports via the Issues tab on this GitHub repository page.
-
-If you have developed different or improved 3D printed case designs, please let me know via the Issues and I can either link to them here or add them to this repository.
 
 ### Welcome to MotoButtons 2, the low-cost, waterproof, DIY Bluetooth motorcycle controller. Version 2 features many upgrades over [the original](https://github.com/joncox123/MotoButtons):
 - 3D printed case with handlebar mount
