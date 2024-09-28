@@ -1,6 +1,7 @@
 # MotoButtons 2
 ### MotoButtons 2 has reached the initial 2.0 release and is ready for users to build their own unit.
-<img src="ConstructionGuide/pics/MB_hand_demo.jpg" alt="Completed unit mounted to bike" width="600"/>
+
+[![Overview of the project and the device](https://img.youtube.com/vi/i00laBGHPMg/0.jpg)](https://www.youtube.com/watch?v=i00laBGHPMg)
 
 **If you have developed different or improved 3D printed case designs, please let me know via the Issues and I can either link to them here or add them to this repository.**
 
@@ -27,5 +28,6 @@ Please see the **[User's Guide](./UsersGuide/README.md)** for instructions on ho
 
 [4] Upload the software to the microcontroller using a USB-C cable and the Arduino program. See [this guide](./Programming/README.md) for detailed instructions.
 
+<img src="ConstructionGuide/pics/MB_hand_demo.jpg" alt="Completed unit mounted to bike" width="600"/>
 <img src="ConstructionGuide/pics/MB_assembled.jpg" alt="Assembled unit on electrical bench" width="600"/>
 <img src="Case/MB2_Case.PNG" alt="3D Printed Case Model" width="600"/>
