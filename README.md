@@ -22,7 +22,7 @@ Please see the **[User's Guide](./UsersGuide/README.md)** for instructions on ho
 
 [2] Order the parts from Digikey by [clicking this link](https://www.digikey.com/short/hzjjppm1), as listed in the [Bill of Materials](./Parts/BOM.csv). Note, due to shipping costs, it is cheaper to order several HS joysticks from Ruffy Controls at once. I recommend ordering one for each bike, or organize a group buy on a forum.
 
-[3] Read the [wiring diagram](./ConstructionGuide/README.md) to assemble your MotoButtons 2 after obtaining the parts and the case.
+[3] Read the [wiring diagram and construction guide](./ConstructionGuide/README.md) to assemble your MotoButtons 2 after obtaining the parts and the case.
 
 [4] Upload the software to the microcontroller using a USB-C cable and the Arduino program. See [this guide](./Programming/README.md) for detailed instructions.
 
