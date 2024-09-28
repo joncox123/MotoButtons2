@@ -26,4 +26,6 @@ Please see the **[User's Guide](./UsersGuide/README.md)** for instructions on ho
 
 [4] Upload the software to the microcontroller using a USB-C cable and the Arduino program. See [this guide](./Programming/README.md) for detailed instructions.
 
-<img src="Case/MB2_Case.PNG" alt="3D Printed Case Model" width="400"/>
+<img src="ConstructionGuide/pics/MB_hand_demo.jpg" alt="Completed unit mounted to bike" width="600"/>
+<img src="ConstructionGuide/pics/MB_assembled.jpg" alt="Assembled unit on electrical bench" width="600"/>
+<img src="Case/MB2_Case.PNG" alt="3D Printed Case Model" width="600"/>
