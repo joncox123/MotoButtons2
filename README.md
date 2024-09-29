@@ -23,7 +23,7 @@ Please see the **[User's Guide](./UsersGuide/README.md)** for instructions on ho
 ## Assembly Steps
 
 [1] Order your 3D printed case by uploading the three CAD STEP files to [Craftcloud](https://craftcloud3d.com/). Choose the Nylon SLA material, not filament PLA.
-  - For the Ruffy HS IP68 joystick, [upload these CAD STEP files](./Case/Parts).
+  - For the Ruffy HS IP68 joystick, [upload these CAD STEP files](./Case/Parts). **NOTE: please wait for a revision of this case that includes 6 screws for the lid and a thicker handlebar clamp before ordering. The Adafruit case version has already been revised.**
   - For the low-cost, Adafruit $2.50 USD 5-way joystick, use [these STEP files](CaseAdafruitJoystick/README.md) for the case instead.
 
 [2] Order the parts from Digikey or Mouser:
