@@ -1,14 +1,8 @@
-Mouser #,Mfr. #,Manufacturer,Customer #,Description,,,,,
-485-4697,4697,Adafruit,,Joysticks Black Rubber Joystick Nubbin Cap for Navigation Joystick,,,,,
-485-504,504,Adafruit,,Adafruit Accessories Thru-hole 5-way Navigation Switch,,,,,
-713-102010448,102010448,Seeed Studio,,"Bluetooth Development Tools - 802.15.1 Seeed Studio XIAO nRF52840, MicroPython - Bluetooth 5.0",,,,,
-655-2-2329387-1,PB6B2FM7M1CAL01,TE Connectivity,,Pushbutton Switches PB OFF/ON FC Blue White LED IP68,,,,,
-655-1-2329387-6,PB6B2FM6M1CAL01,TE Connectivity,,Pushbutton Switches PB OFF/ON FC Green White LED IP68,,,,,
-655-2-2329387-2,PB6B2FM7M1CAL03,TE Connectivity,,Pushbutton Switches PB OFF/ON FC Blue Red LED IP68,RoHS,Lifecycle,Order Qty.,Price (USD),Ext.: (USD)
-604-WP154A43VBDZGWCA,WP154A4SEJ3VBDZGW/CA,Kingbright,,Standard LEDs - Through Hole 5MM RGB LED,,,1,$0.50,$0.50
-,,,,,RoHS Compliant,,1,$1.95,$1.95
-,,,,,RoHS Compliant,,1,$10.38,$10.38
-,,,,,RoHS Compliant By Exemption,,1,$4.74,$4.74
-,,,,,RoHS Compliant By Exemption,,1,$4.74,$4.74
-,,,,,RoHS Compliant By Exemption,,1,$5.98,$5.98
-,,,,,RoHS Compliant,,1,$1.95,$1.95
+Mouser #,Mfr. #,Manufacturer,Customer #,Description,Order Qty.,Price (USD),Ext.: (USD)
+485-4697,4697,Adafruit,,Joysticks Black Rubber Joystick Nubbin Cap for Navigation Joystick,1,$0.50,$0.50
+485-504,504,Adafruit,,Adafruit Accessories Thru-hole 5-way Navigation Switch,1,$1.95,$1.95
+713-102010448,102010448,Seeed Studio,,"Bluetooth Development Tools - 802.15.1 Seeed Studio XIAO nRF52840, MicroPython - Bluetooth 5.0",1,$10.38,$10.38
+655-2-2329387-1,PB6B2FM7M1CAL01,TE Connectivity,,Pushbutton Switches PB OFF/ON FC Blue White LED IP68,1,$4.74,$4.74
+655-1-2329387-6,PB6B2FM6M1CAL01,TE Connectivity,,Pushbutton Switches PB OFF/ON FC Green White LED IP68,1,$4.74,$4.74
+655-2-2329387-2,PB6B2FM7M1CAL03,TE Connectivity,,Pushbutton Switches PB OFF/ON FC Blue Red LED IP68,1,$5.98,$5.98
+604-WP154A43VBDZGWCA,WP154A4SEJ3VBDZGW/CA,Kingbright,,Standard LEDs - Through Hole 5MM RGB LED,1,$1.95,$1.95
