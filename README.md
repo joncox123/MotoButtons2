@@ -22,7 +22,7 @@ Please see the **[User's Guide](./UsersGuide/README.md)** for instructions on ho
 
 ## Assembly Steps
 
-[1] Order your 3D printed case by uploading the three [CAD STEP files](./Case/Parts) to [Craftcloud](https://craftcloud3d.com/). Use the Nylon SLA material, as the cheaper PLA filament will not be of satisfactory quality. You do not need to pay for any special finishings or other options beyond Nylon SLA.
+[1] Order your 3D printed case by uploading the three [CAD STEP files](./Case/Parts) to [Craftcloud](https://craftcloud3d.com/). If you are using the low-cost, Adafruit $2.50 USD 5-way joystick, use [this case model](CaseAdafruitJoystick/README.md) instead. Use the Nylon SLA material for printing, as the cheaper PLA filament will not be of satisfactory quality. You do not need to pay for any special finishings or other options beyond Nylon SLA.
 
 [2] Order the parts from Digikey by [clicking this link](https://www.digikey.com/short/hzjjppm1), as listed in the [Bill of Materials](./Parts/BOM.csv). Note, due to shipping costs, it is cheaper to order several HS joysticks from Ruffy Controls at once. I recommend ordering one for each bike, or organize a group buy on a forum.
 
@@ -30,6 +30,11 @@ Please see the **[User's Guide](./UsersGuide/README.md)** for instructions on ho
 
 [4] Upload the software to the microcontroller using a USB-C cable and the Arduino program. See [this guide](./Programming/README.md) for detailed instructions.
 
+### A case for the Ruffy 4/5-way joystick
 <img src="ConstructionGuide/pics/MB_hand_demo.jpg" alt="Completed unit mounted to bike" width="600"/>
 <img src="ConstructionGuide/pics/MB_assembled.jpg" alt="Assembled unit on electrical bench" width="600"/>
 <img src="Case/MB2_Case.PNG" alt="3D Printed Case Model" width="600"/>
+
+### A case for the Adafruit 504 $2.50 USD 5-way joystick
+See the STEP files [here](CaseAdafruitJoystick/README.md).
+<img src="CaseAdafruitJoystick/MB2_Case.PNG" alt="Low-cost 3D Printed Case Model" width="600"/>
