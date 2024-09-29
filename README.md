@@ -1,7 +1,7 @@
 # MotoButtons 2
 ### MotoButtons 2 has reached the initial 2.0 release and is ready for users to build their own unit.
 
-[![Overview of the project and the device](https://img.youtube.com/vi/i00laBGHPMg/0.jpg)](https://www.youtube.com/watch?v=i00laBGHPMg)
+[![YouTube](http://i.ytimg.com/vi/i00laBGHPMg/hqdefault.jpg)](https://www.youtube.com/watch?v=i00laBGHPMg)
 
 **If you have developed different or improved 3D printed case designs, please let me know via the Issues and I can either link to them here or add them to this repository.**
 
