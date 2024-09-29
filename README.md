@@ -22,9 +22,13 @@ Please see the **[User's Guide](./UsersGuide/README.md)** for instructions on ho
 
 ## Assembly Steps
 
-[1] Order your 3D printed case by uploading the three [CAD STEP files](./Case/Parts) to [Craftcloud](https://craftcloud3d.com/). If you are using the low-cost, Adafruit $2.50 USD 5-way joystick, use [this case model](CaseAdafruitJoystick/README.md) instead. Use the Nylon SLA material for printing, as the cheaper PLA filament will not be of satisfactory quality. You do not need to pay for any special finishings or other options beyond Nylon SLA.
+[1] Order your 3D printed case by uploading the three CAD STEP files to [Craftcloud](https://craftcloud3d.com/). Choose the Nylon SLA material, not filament PLA.
+  - For the Ruffy HS IP68 joystick, [upload these CAD STEP files](./Case/Parts).
+  - For the low-cost, Adafruit $2.50 USD 5-way joystick, use [these STEP files](CaseAdafruitJoystick/README.md) for the case instead.
 
-[2] Order the parts from Digikey by [clicking this link](https://www.digikey.com/short/hzjjppm1), as listed in the [Bill of Materials](./Parts/BOM.csv). Note, due to shipping costs, it is cheaper to order several HS joysticks from Ruffy Controls at once. I recommend ordering one for each bike, or organize a group buy on a forum.
+[2] Order the parts from Digikey or Mouser:
+  - For the commercial, IP68 5-way joystick from Ruffy Controls, [order from Digikey](https://www.digikey.com/short/hzjjppm1). These parts are also listed in the [Bill of Materials](./Parts/BOM.csv). Note, due to shipping costs, it is cheaper to order several HS joysticks from Ruffy Controls at once. I recommend ordering one for each bike, or organize a group buy on a forum.
+  - Using the $2.50 Adafruit 504 5-way joystick (no additional shipping costs), [from Mouser](https://www.mouser.com/ProjectManager/ProjectDetail.aspx?AccessID=e6513e64c0). See the [Bill of Materials](CaseAdafruitJoystick/BOM.csv).
 
 [3] Read the [wiring diagram and construction guide](./ConstructionGuide/README.md) to assemble your MotoButtons 2 after obtaining the parts and the case.
 
@@ -36,5 +40,4 @@ Please see the **[User's Guide](./UsersGuide/README.md)** for instructions on ho
 <img src="Case/MB2_Case.PNG" alt="3D Printed Case Model" width="600"/>
 
 ### A case for the Adafruit 504 $2.50 USD 5-way joystick
-See the STEP files [here](CaseAdafruitJoystick/README.md).
 <img src="CaseAdafruitJoystick/MB2_Case.PNG" alt="Low-cost 3D Printed Case Model" width="600"/>
