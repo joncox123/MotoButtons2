@@ -640,7 +640,7 @@ void mapButtonsToKeyReport()
       keyReport[i] = DMD_KEY_CENTER;
       ++i;
     }
-    if (!button_A_state & button_A_flipped && !button_B_state)
+    if (!button_A_state && button_A_flipped && !button_B_state)
     {
       button_A_flipped = false;
       forceKeyReport = true;
