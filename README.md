@@ -1,9 +1,6 @@
 # MotoButtons 2
 ### MotoButtons 2 has reached the initial 2.0 release and is ready for users to build their own unit. You can build this either for a commercial, 5-way IP68 joystick, the part costs $75 USD + shipping, or with the original $2.50 USD Adafruit 504 5-way joystick (as in MotoButtons Lite). However, construction is much easier either way because of the 3D printed Nylon case.
 
-Click the image below to watch an [overview video](https://www.youtube.com/watch?v=i00laBGHPMg) of the project, the device and its operation on YouTube:
-[![YouTube video overview of the project and device](http://i.ytimg.com/vi/i00laBGHPMg/hqdefault.jpg)](https://www.youtube.com/watch?v=i00laBGHPMg)
-
 **If you have developed different or improved 3D printed case designs, please let me know via the Issues and I can either link to them here or add them to this repository.**
 
 Please submit any bug reports via the Issues tab on this GitHub repository page.
